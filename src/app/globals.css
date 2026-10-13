@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --board-dark: #2d1b18;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #05070a; /* Noir profond pour faire ressortir le bois */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 2500px; /* Indispensable pour la 3D */
+}
+
+.isometric-wrapper {
+  transform: rotateX(50deg) rotateZ(-15deg); /* Rotation 3D réelle */
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 50px 100px rgba(0,0,0,0.8));
+}
+
+.isometric-board {
+  background-color: #4e342e;
+  background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+  border-radius: 50px;
+  padding: 60px;
+  border: 15px solid var(--board-dark);
+  transform-style: preserve-3d;
+  background: linear-gradient(135deg, #4e342e 0%, #2d1b18 100%);
+  border: 15px solid #1a0f0d;
+  /* Ajout d'une bordure lumineuse sur le bois (comme tes photos) */
+  outline: 1px solid rgba(255,255,255,0.05);
+  /* Épaisseur du plateau (Tranche) */
+  box-shadow: 
+    0 10px 0 #1a0f0d,
+    0 20px 0 #1a0f0d,
+    inset 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* --- THEMES DU PLATEAU --- */
+.theme-wood {
+  background: linear-gradient(135deg, #3d2723 0%, #1a0f0d 100%);
+  box-shadow: 
+    0 15px 0 #120a09, /* Tranche du plateau */
+    0 30px 60px rgba(0,0,0,0.8);
+}
+
+.theme-metal {
+  background: linear-gradient(135deg, #263238 0%, #101416 100%);
+  box-shadow: 0 15px 0 #0a0c0d, 0 30px 60px rgba(0,0,0,0.8);
+}
+
+/* --- TROUS SCULPTÉS (Effet Photo) --- */
+.hole-sculpted {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  /* Gradient sombre vers l'intérieur pour la profondeur */
+  background: radial-gradient(circle at center, #000 0%, #1a0f0d 100%);
+  /* Double ombre : interne pour le creux, externe pour le biseau */
+  box-shadow: 
+    inset 8px 8px 16px rgba(0,0,0,0.9), 
+    inset -4px -4px 12px rgba(255,255,255,0.03),
+    0 2px 4px rgba(0,0,0,0.5);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.hole-sculpted:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: radial-gradient(circle at center, #080808 0%, #2d1b18 100%);
+  box-shadow: 
+    inset 4px 4px 10px rgba(0,0,0,0.8),
+    0 15px 30px rgba(0,0,0,0.4),
+    0 0 15px rgba(6, 182, 212, 0.1);
+}
+
+/* --- PERSPECTIVE 3D --- */
+.isometric-wrapper {
+  transform: rotateX(42deg) rotateZ(-12deg) translateY(-50px);
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out;
+}
+
+/* Style "Glass" plus propre */
+.glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
 }
